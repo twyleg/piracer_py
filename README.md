@@ -24,7 +24,7 @@ Tested on the following distributions:
 * Ubuntu Server 20.04.5 LTS (64-Bit)
 
 
-### Add source (Ubuntu only)
+### Add additional sources (Ubuntu only)
 
 If you run **Ubuntu**, add the following sources first:
 
