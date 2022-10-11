@@ -16,9 +16,13 @@ Tested on the following Hardware:
 
 * Raspberry Pi 4 Model B 4GB
 
-Tested on the following distributions:
+Tested on the following distributions:      
 
+* Raspberry Pi OS Lite "Bullseye" (64-Bit)
+  * Camera is not working at the moment
+* Ubuntu Server 22.04.1 LTS (64-Bit)
 * Ubuntu Server 20.04.5 LTS (64-Bit)
+
 
 ### Add source (Ubuntu only)
 
@@ -35,10 +39,12 @@ If you run **Ubuntu**, add the following sources first:
 
     sudo apt update
     sudo apt install \
+        gcc \
         v4l-utils \
         i2c-tools \
         raspi-config \
         python3-dev \
+        python3-setuptools \
         python3-venv \
         libopencv-dev
 
