@@ -7,17 +7,18 @@ def read(fname):
 
 
 setup(
-    name="piracer_py",
+    name='piracer_py',
     version=read('VERSION.txt'),
-    author="Torsten Wylegala",
-    author_email="mail@twyleg.de",
-    description=("Simple abstraction layer for PiRacer and PiRacer Pro"),
-    license="GPL 3.0",
-    keywords="piracer embedded abstraction",
-    url="https://github.com/twyleg/piracer_py",
+    author='Torsten Wylegala',
+    author_email='mail@twyleg.de',
+    description='Simple abstraction layer for PiRacer and PiRacer Pro',
+    license='GPL 3.0',
+    keywords='piracer embedded abstraction',
+    url='https://github.com/twyleg/piracer_py',
     packages=find_packages(),
     include_package_data=True,
     long_description=read('README.md'),
+    long_description_content_type='text/markdown',
     install_requires=[
         'wheel',
         'RPi.GPIO',
