@@ -5,6 +5,11 @@ You will be able to control the powertrain and the steering as easy as possible.
 
 I also provides an easy way to grab images from the camera (based on v4l2 and opencv)
 
+PiRacer Standard and Pro architecture overview:
+
+![](doc/architecture/export/piracer_overview.drawio.svg)
+
+
 ## Install
 
 Tested on the following Hardware:
