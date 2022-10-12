@@ -1,3 +1,4 @@
+# Copyright (C) 2022 twyleg
 import os
 import cv2
 

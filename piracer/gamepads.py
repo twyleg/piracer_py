@@ -1,18 +1,19 @@
+# Copyright (C) 2022 twyleg
 import array
 import struct
 import os
-from typing import Optional
+from typing import Optional, Tuple
 
 
 class Vector3f:
-    def __init__(self):
+    def __init__(self) -> None:
         self.x = 0.0
         self.y = 0.0
         self.z = 0.0
 
 
 class ShanWanGamepadInput:
-    def __init__(self):
+    def __init__(self) -> None:
         self.analog_stick_left = Vector3f()
         self.analog_stick_right = Vector3f()
         self.button_l1: Optional[float]
@@ -30,12 +31,16 @@ class ShanWanGamepadInput:
 
 class Joystick(object):
     '''
+    Based on the donkeycar project
+    MIT License
+    https://github.com/autorope/donkeycar/blob/4.3.6.2/donkeycar/parts/controller.py
+
     An interface to a physical joystick.
     The joystick holds available buttons
     and axis; both their names and values
     and can be polled to state changes.
     '''
-    def __init__(self, dev_fn='/dev/input/js0'):
+    def __init__(self, dev_fn='/dev/input/js0') -> None:
         self.axis_states = {}
         self.button_states = {}
         self.axis_names = {}
@@ -46,7 +51,7 @@ class Joystick(object):
         self.dev_fn = dev_fn
 
 
-    def init(self):
+    def init(self) -> None:
         """
         Query available buttons and axes given
         a path in the linux device tree.
@@ -98,35 +103,33 @@ class Joystick(object):
             btn_name = self.button_names.get(btn, 'unknown(0x%03x)' % btn)
             self.button_map.append(btn_name)
             self.button_states[btn_name] = 0
-            #print('btn', '0x%03x' % btn, 'name', btn_name)
 
         return True
 
 
-    def show_map(self):
+    def show_map(self) -> None:
         '''
         list the buttons and axis found on this joystick
         '''
         print ('%d axes found: %s' % (self.num_axes, ', '.join(self.axis_map)))
         print ('%d buttons found: %s' % (self.num_buttons, ', '.join(self.button_map)))
 
-
-    def poll(self):
+    def poll(self) -> Tuple[Optional[str], Optional[int], Optional[bool], Optional[str], Optional[int], Optional[float]]:
         '''
         query the state of the joystick, returns button which was pressed, if any,
         and axis which was moved, if any. button_state will be None, 1, or 0 if no changes,
         pressed, or released. axis_val will be a float from -1 to +1. button and axis will
         be the string label determined by the axis map in init.
         '''
-        button = None
-        button_number = None
-        button_state = None
-        axis = None
-        axis_number = None
-        axis_val = None
+        button_name: Optional[str] = None
+        button_number: Optional[int] = None
+        button_state: Optional[bool] = None
+        axis_name: Optional[str] = None
+        axis_number: Optional[int] = None
+        axis_val: Optional[float] = None
 
         if self.jsdev is None:
-            return button, button_number, button_state, axis, axis_number, axis_val
+            return button_name, button_number, button_state, axis_name, axis_number, axis_val
 
         # Main event loop
         evbuf = self.jsdev.read(8)
@@ -136,35 +139,35 @@ class Joystick(object):
 
             if typev & 0x80:
                 #ignore initialization event
-                return button, button_number, button_state, axis, axis_number, axis_val
+                return button_name, button_number, button_state, axis_name, axis_number, axis_val
 
             if typev & 0x01:
-                button = self.button_map[number]
-                if button:
-                    self.button_states[button] = value
+                button_name = self.button_map[number]
+                if button_name:
+                    self.button_states[button_name] = value
                     button_number = number
                     button_state = value
 
             if typev & 0x02:
-                axis = self.axis_map[number]
-                if axis:
+                axis_name = self.axis_map[number]
+                if axis_name:
                     fvalue = value / 32767.0
-                    self.axis_states[axis] = fvalue
+                    self.axis_states[axis_name] = fvalue
                     axis_number = number
                     axis_val = fvalue
 
-        return button, button_number, button_state, axis, axis_number, axis_val
+        return button_name, button_number, button_state, axis_name, axis_number, axis_val
 
 
 class ShanWanGamepad(Joystick):
 
-    def __init__(self):
+    def __init__(self)  -> None:
         super(ShanWanGamepad, self).__init__()
         super(ShanWanGamepad, self).init()
         self.gamepad_input = ShanWanGamepadInput()
 
     def read_data(self) -> ShanWanGamepadInput:
-        button, button_number, button_state, axis, axis_number, axis_val = super(ShanWanGamepad, self).poll()
+        _, button_number, button_state, _, axis_number, axis_val = super(ShanWanGamepad, self).poll()
 
         if axis_number == 0:
             self.gamepad_input.analog_stick_left.x = axis_val

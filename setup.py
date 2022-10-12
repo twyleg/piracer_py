@@ -1,3 +1,4 @@
+# Copyright (C) 2022 twyleg
 import os
 from setuptools import find_packages, setup
 

@@ -32,8 +32,17 @@ If you run **Ubuntu**, add the following sources first:
     echo "deb http://archive.raspberrypi.org/debian/ buster main" >> /etc/apt/sources.list
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 7FA3303E
     apt update
-    mount /dev/mmcblk0p1 /boot/
-    exit 
+    exit
+
+If you're facing messages like the following when trying to install packages
+via apt:
+
+    pi@ubuntu:/home/pi# sudo apt install PACKAGES...
+    Waiting for cache lock: Could not get lock /var/lib/dpkg/lock-frontend. It is held by process 1807 (unattended-upgr)
+
+Disable the unattended upgrade feature by running the following command to disable:
+
+    sudo dpkg-reconfigure unattended-upgrades
 
 ### Install dependencies:
 
@@ -49,6 +58,15 @@ If you run **Ubuntu**, add the following sources first:
         libopencv-dev
 
 ### Setup periphery 
+
+#### Mount boot partition (Ubuntu only)
+
+On Ubuntu it is necessary to explicitly mount the boot partition before 
+enabling the i2c controller and camera:
+
+    mount /dev/mmcblk0p1 /boot/
+
+#### Enable i2c and camera
 
 Use the **raspi-config** tool to enable the following peripherals:
 
