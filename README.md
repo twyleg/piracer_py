@@ -83,7 +83,7 @@ Afterwards, reboot:
     mkdir piracer_test/
     cd piracer_test/
     python3 -m venv venv
-    source venv/bin/ativate
+    source venv/bin/activate
 
     pip install piracer-py
 
